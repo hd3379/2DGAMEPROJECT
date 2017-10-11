@@ -1,6 +1,7 @@
 import game_framework
 from pico2d import *
 import random
+import numbers
 
 def enter():
     global boy,grass
@@ -30,7 +31,7 @@ def draw():
     grass.draw()
     for boy in team:
         boy.draw()
-    print(num+1)
+    numbers.draw(num+1,740,540)
     update_canvas()
 
 
@@ -52,8 +53,8 @@ class Boy:
         self.frame = random.randint(0,7)
         self.dir = 1
         self.state = self.RIGHT_RUN
-        self.run_frames = 0
-        self.stand_frames =0
+        self.run_frames = random.randint(0,99)
+        self.stand_frames =random.randint(0,49)
         if Boy.image == None:
             Boy.image = load_image('animation_sheet.png')
         
