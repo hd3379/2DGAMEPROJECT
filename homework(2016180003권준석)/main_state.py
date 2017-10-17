@@ -3,6 +3,7 @@ from pico2d import *
 import random
 import numbers
 import BoyClass
+import json_player
 
 def enter():
     global boy,grass
@@ -10,7 +11,7 @@ def enter():
     open_canvas()
     boy = BoyClass.Boy()
     grass = Grass()
-    team = [BoyClass.Boy() for i in range(1000)]
+    team = json_player.create_team()
     num = 0
     running = True;
 
@@ -54,18 +55,13 @@ def handle_events():
     for event in events:
         if event.type == SDL_QUIT:
             running = False
-        elif event.type == SDL_MOUSEMOTION:
-            x,y = event.x,600 - event.y
-            team[num].SetPoint(x,y)
-        elif event.type == SDL_MOUSEBUTTONDOWN:
-            x,y = event.x,600 - event.y
-            team[num].SetPoint(x,y)
-        elif event.type == SDL_KEYDOWN:
-            if event.key == SDLK_ESCAPE:
-                running = False
-            if event.key == SDLK_DOWN:
+        elif (event.type,event.key) == (SDL_KEYDOWN,SDLK_ESCAPE) :
+             running = False
+        elif (event.type,event.key) == (SDL_KEYDOWN,SDLK_DOWN):
                 num = num+1
-            elif event.key == SDLK_UP:
+        elif (event.type,event.key) == (SDL_KEYDOWN,SDLK_UP):
                 num = num-1
+        else:
+            team[num].handle_event(event)
 
 
