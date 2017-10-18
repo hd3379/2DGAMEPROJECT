@@ -41,6 +41,8 @@ class Bike:
     
     def __init__(self):
         self.degree = 0
+        self.speed = 0
+        self.radi = self.degree*3.14/180
         self.state = self.IDLE1
         self.x,self.y = 200,200
         self.idle1 = load_image('resource\\idle1.png')
@@ -51,17 +53,17 @@ class Bike:
         self.down2 = load_image('resource\\down2.png')
     def draw(self):
         if self.state == self.IDLE1:
-            self.idle1.draw(self.x,self.y)
+            self.idle1.rotate_draw(self.radi,self.x,self.y)
         elif self.state == self.IDLE2:
-            self.idle2.draw(self.x,self.y)
+            self.idle2.rotate_draw(self.radi,self.x,self.y)
         elif self.state == self.UP1:
-            self.up1.draw(self.x,self.y)
+            self.up1.rotate_draw(self.radi,self.x,self.y)
         elif self.state == self.UP2:
-            self.up2.draw(self.x,self.y)
+            self.up2.rotate_draw(self.radi,self.x,self.y)
         elif self.state == self.DOWN1:
-            self.down1.draw(self.x,self.y)
+            self.down1.rotate_draw(self.radi,self.x,self.y)
         elif self.state == self.DOWN2:
-            self.down2.draw(self.x,self.y)
+            self.down2.rotate_draw(self.radi,self.x,self.y)
 
     def update(self):
         if self.state %2 == 0:
@@ -69,9 +71,10 @@ class Bike:
         else:
             self.state-=1
         if self.state in (self.UP1,self.UP2):
-            degree+=2
+            self.degree+=2
         elif self.state in (self.DOWN1,self.DOWN2):
-            degree-=2
+            self.degree-=2
+        self.radi = self.degree*3.14/180
 
     def handle_events(self,event):
         if (event.type,event.key) == (SDL_KEYDOWN, SDLK_UP):
@@ -82,3 +85,7 @@ class Bike:
             self.state = self.IDLE1
         elif (event.type,event.key) == (SDL_KEYUP, SDLK_UP):
             self.state = self.IDLE1
+        elif (event.type,event.key) == (SDL_KEYUP, SDLK_RIGHT):
+            self.speed += 1
+        elif (event.type,event.key) == (SDL_KEYUP, SDLK_LEFT):
+            self.speed -= 1
