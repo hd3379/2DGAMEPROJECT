@@ -5,6 +5,8 @@ class Map:
 
     def __init__(self):
         self.map_height = []
+        self.map_left = 0
+        self.map_right = 8
         
     def CreateMap(self):
         map_data_file = open('map_data.txt','r')
@@ -19,4 +21,5 @@ class Map:
         map_data_file.close()
 
     def draw(self):
-        draw_rectangle(100,100,200,200)
+        draw_rectangle(00,100,800,0)
+        

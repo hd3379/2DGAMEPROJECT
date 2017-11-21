@@ -54,3 +54,6 @@ class Bike:
             self.speed += 1
         elif (event.type,event.key) == (SDL_KEYUP, SDLK_LEFT):
             self.speed -= 1
+
+    def get_x(self):
+        return self.x
