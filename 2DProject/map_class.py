@@ -18,7 +18,5 @@ class Map:
         print(self.map_height)
         map_data_file.close()
 
-
-
-ground = Map()
-ground.CreateMap()
+    def draw(self):
+        draw_rectangle(100,100,200,200)
