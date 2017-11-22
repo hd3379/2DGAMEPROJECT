@@ -7,9 +7,11 @@ import bike_class
 def enter():
     global paco
     global ground
+    global current_time
     open_canvas()
     paco = bike_class.Bike()
     ground = map_class.Map()
+    current_time = get_time()
 
 def exit():
     global paco

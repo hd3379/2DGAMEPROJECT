@@ -19,7 +19,7 @@ class Vector:
         self.x += x
         self.y += y
 
-    def VectorMinus(self.x,y):
+    def VectorMinus(self,x,y):
         self.x -= x
         self.y -= y
     def normalizeVector(self):
