@@ -15,11 +15,11 @@ class Vector:
     def getVector(self):
         return self.x , self.y
     
-    def VectorPlus(self,x,y):
+    def Plus(self,x,y):
         self.x += x
         self.y += y
 
-    def VectorMinus(self,x,y):
+    def Minus(self,x,y):
         self.x -= x
         self.y -= y
     def normalizeVector(self):
@@ -34,3 +34,6 @@ class Vector:
         PI = 3.1415
         return(math.acos(self.dotVector(x,y) /
                          (self.getSize() * math.sqrt(x*x + y*y))) * (180/PI))
+
+    def gravity(self):
+        self.y -= 0.98

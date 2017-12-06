@@ -21,5 +21,9 @@ class Map:
         map_data_file.close()
 
     def draw(self):
-        draw_rectangle(00,100,800,0)
-        
+        i = 0
+        oldheight = 500
+        for height in self.map_height:
+            draw_line(i*100,oldheight,(i+1)*100,height)
+            i = i+1
+            oldheight = height

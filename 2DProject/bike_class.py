@@ -1,4 +1,5 @@
 from pico2d import *
+import vector_class
 
 class Bike:
 
@@ -6,7 +7,6 @@ class Bike:
     
     def __init__(self):
         self.degree = 0
-        self.speed = 0
         self.radi = self.degree*3.14/180
         self.state = self.IDLE1
         self.x,self.y = 200,200
@@ -16,6 +16,7 @@ class Bike:
         self.up2 = load_image('resource\\up2.png')
         self.down1 = load_image('resource\\down1.png')
         self.down2 = load_image('resource\\down2.png')
+        self.vec = vector_class.Vector()
     def draw(self):
         if self.state == self.IDLE1:
             self.idle1.rotate_draw(self.radi,self.x,self.y)
@@ -31,6 +32,7 @@ class Bike:
             self.down2.rotate_draw(self.radi,self.x,self.y)
 
     def update(self):
+        #manage state
         if self.state %2 == 0:
             self.state+=1
         else:
@@ -40,6 +42,13 @@ class Bike:
         elif self.state in (self.DOWN1,self.DOWN2):
             self.degree-=2
         self.radi = self.degree*3.14/180
+
+        self.vec.gravity()
+
+        #manage speed
+        vecx , vecy = self.vec.getVector()
+        self.x += vecx
+        self.y += vecy
 
     def handle_events(self,event):
         if (event.type,event.key) == (SDL_KEYDOWN, SDLK_UP):
@@ -51,9 +60,9 @@ class Bike:
         elif (event.type,event.key) == (SDL_KEYUP, SDLK_UP):
             self.state = self.IDLE1
         elif (event.type,event.key) == (SDL_KEYUP, SDLK_RIGHT):
-            self.speed += 1
+            self.vec.Plus(1,0)
         elif (event.type,event.key) == (SDL_KEYUP, SDLK_LEFT):
-            self.speed -= 1
+            self.vec.Minus(1,0)
 
     def get_x(self):
         return self.x

@@ -12,6 +12,7 @@ def enter():
     paco = bike_class.Bike()
     ground = map_class.Map()
     current_time = get_time()
+    ground.CreateMap()
 
 def exit():
     global paco
