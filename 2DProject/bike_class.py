@@ -1,5 +1,6 @@
 from pico2d import *
 import vector_class
+import math
 
 class Bike:
 
@@ -7,7 +8,6 @@ class Bike:
     
     def __init__(self):
         self.degree = 0
-        self.radi = self.degree*3.14/180
         self.state = self.IDLE1
         self.x,self.y = 200,200
         self.idle1 = load_image('resource\\idle1.png')
@@ -17,19 +17,32 @@ class Bike:
         self.down1 = load_image('resource\\down1.png')
         self.down2 = load_image('resource\\down2.png')
         self.vec = vector_class.Vector()
+        self.LWx , self.LWy = self.x - 58 , self.y + 12
+        self.toLW = 74
+        self.Wsize = 23  # W = Wheel
+        self.RWx , self.RWy = self.x + 72 , self.y + 12
+        self.toRW = 86
+        
     def draw(self):
+        radi = 3.14/180.0 * self.degree
         if self.state == self.IDLE1:
-            self.idle1.rotate_draw(self.radi,self.x,self.y)
+            self.idle1.rotate_draw(radi,self.x,self.y)
         elif self.state == self.IDLE2:
-            self.idle2.rotate_draw(self.radi,self.x,self.y)
+            self.idle2.rotate_draw(radi,self.x,self.y)
         elif self.state == self.UP1:
-            self.up1.rotate_draw(self.radi,self.x,self.y)
+            self.up1.rotate_draw(radi,self.x,self.y)
         elif self.state == self.UP2:
-            self.up2.rotate_draw(self.radi,self.x,self.y)
+            self.up2.rotate_draw(radi,self.x,self.y)
         elif self.state == self.DOWN1:
-            self.down1.rotate_draw(self.radi,self.x,self.y)
+            self.down1.rotate_draw(radi,self.x,self.y)
         elif self.state == self.DOWN2:
-            self.down2.rotate_draw(self.radi,self.x,self.y)
+            self.down2.rotate_draw(radi,self.x,self.y)
+            
+        draw_rectangle(self.LWx - self.Wsize , self.LWy - self.Wsize
+                       ,self.LWx + self.Wsize , self.LWy + self.Wsize)
+        
+        draw_rectangle(self.RWx - self.Wsize , self.RWy - self.Wsize
+                       ,self.RWx + self.Wsize , self.RWy + self.Wsize)
 
     def update(self):
         #manage state
@@ -41,14 +54,25 @@ class Bike:
             self.degree+=2
         elif self.state in (self.DOWN1,self.DOWN2):
             self.degree-=2
-        self.radi = self.degree*3.14/180
 
-        self.vec.gravity()
 
         #manage speed
         vecx , vecy = self.vec.getVector()
         self.x += vecx
         self.y += vecy
+
+        #collision box
+        radi = 3.14/180.0
+        LWdegree = self.degree + 218
+        RWdegree = self.degree + 328
+        
+        self.LWx = self.x + self.toLW * math.cos(LWdegree*radi) 
+        self.LWy = self.y + self.toLW * math.sin(LWdegree*radi)
+        self.RWx = self.x + self.toRW * math.cos(RWdegree*radi)
+        self.RWy = self.y + self.toRW * math.sin(RWdegree*radi)
+
+        
+        
 
     def handle_events(self,event):
         if (event.type,event.key) == (SDL_KEYDOWN, SDLK_UP):
