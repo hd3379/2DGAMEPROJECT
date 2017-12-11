@@ -215,7 +215,7 @@ def draw_rectangle(x1,y1,x2,y2):
 
 def draw_line(x1,y1,x2,y2):
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255)
-    SDL_RenderDrawLine(renderer,x1,y1,x2,y2)
+    SDL_RenderDrawLine(renderer,int(x1),int(y1),int(x2),int(y2))
 
 class Image:
     """Pico2D Image Class"""

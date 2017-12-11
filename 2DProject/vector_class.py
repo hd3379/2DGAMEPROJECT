@@ -36,4 +36,4 @@ class Vector:
                          (self.getSize() * math.sqrt(x*x + y*y))) * (180/PI))
 
     def gravity(self):
-        self.y -= 0.98
+        self.y -= 0.098
