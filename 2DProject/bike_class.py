@@ -22,6 +22,8 @@ class Bike:
         self.down1 = load_image('resource\\down1.png')
         self.down2 = load_image('resource\\down2.png')
         self.vec = vector_class.Vector()
+        self.RightMove = False
+        self.LeftMove = False
         self.LWx , self.LWy = self.x - 58 , self.y + 12
         self.toLW = 74
         self.Wsize = 23  # W = Wheel
@@ -71,6 +73,15 @@ class Bike:
                 self.degree-= 1
                 if(self.degree < -720):
                     self.degree += 360
+
+            vecx , vecy = self.vec.getVector()
+            
+            if self.RightMove:
+                if vecx < 10:
+                    self.vec.Plus(0.05,0)
+            if self.LeftMove:
+                if vecx > -10:
+                    self.vec.Minus(0.05,0)
     
 
             #manage speed
@@ -103,11 +114,16 @@ class Bike:
             self.state = self.IDLE1
         elif (event.type,event.key) == (SDL_KEYUP, SDLK_UP):
             self.state = self.IDLE1
+        elif (event.type,event.key) == (SDL_KEYDOWN, SDLK_RIGHT):
+            self.RightMove = True
+            self.LeftMove = False
+        elif (event.type,event.key) == (SDL_KEYDOWN, SDLK_LEFT):
+            self.LeftMove = True
+            self.RightMove = False
         elif (event.type,event.key) == (SDL_KEYUP, SDLK_RIGHT):
-            self.vec.Plus(0.2,0)
+            self.RightMove = False
         elif (event.type,event.key) == (SDL_KEYUP, SDLK_LEFT):
-            self.vec.Minus(0.2,0)
-
+            self.LeftMove = False
     def get_xy(self):
         return self.x , self.y
 
