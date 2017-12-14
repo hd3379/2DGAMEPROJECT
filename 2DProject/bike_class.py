@@ -21,6 +21,7 @@ class Bike:
         self.up2 = load_image('resource\\up2.png')
         self.down1 = load_image('resource\\down1.png')
         self.down2 = load_image('resource\\down2.png')
+        
         self.vec = vector_class.Vector()
         self.RightMove = False
         self.LeftMove = False
@@ -81,7 +82,8 @@ class Bike:
             if self.RightMove:
                 if vecx < 10:
                     self.vec.Plus(0.05,0)
-            if self.LeftMove:
+            else:
+            if self.LeftMove:      
                 if vecx > -5:
                     self.vec.Minus(0.05,0)
     

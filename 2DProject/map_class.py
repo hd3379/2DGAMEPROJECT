@@ -14,8 +14,18 @@ class Map:
         self.cloud = load_image('resource\\cloud.png')
         self.apart = load_image('resource\\apart.png')
         self.Tree = load_image('resource\\Tree.png')
+        self.bgm = load_music('sound\\(Yoshis Island) - Athletic.mp3')
+        self.bgm.set_volume(64)
+        self.bgm.repeat_play()
         global stacked_time
         stacked_time = 0
+
+    def exit(self):
+        del(self.cloud)
+        del(self.Tree)
+        del(self.apart)
+        self.bgm.stop()
+        del(self.bgm)
         
     def CreateMap(self):
         map_data_file = open('map_data.txt','r')
@@ -26,7 +36,6 @@ class Map:
             num = int(line)
             self.map_height.append(num)
 
-        print(self.map_height)
         map_data_file.close()
         
     def draw(self):
@@ -67,7 +76,7 @@ class Map:
                 self.mapx += -1 + vecx*(self.mapx - pacoX)/200
                 self.cloudx -= vecx*(pacoX - self.mapx)/10000.0
                 self.apartx -= vecx*(pacoX - self.mapx)/2000.0
-                self.Treex -= vecx*(pacoX - self.mapx)/500.0
+                self.Treex -= vecx*(pacoX - self.mapx)/500.0             
 
             if self.mapy + 1 < pacoY:
                 self.mapy += vecy*(pacoY - self.mapy)/100
