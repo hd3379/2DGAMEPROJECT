@@ -2,6 +2,8 @@ from pico2d import *
 import vector_class
 import math
 import collision
+import game_framework
+import game_over
 
 class Bike:
 
@@ -25,6 +27,9 @@ class Bike:
         self.vec = vector_class.Vector()
         self.RightMove = False
         self.LeftMove = False
+        self.headx, self.heady = self.x , self.y -30
+        self.headSize = 25
+        self.tohead = 30
         self.LWx , self.LWy = self.x - 58 , self.y + 12
         self.toLW = 74
         self.Wsize = 23  # W = Wheel
@@ -54,6 +59,9 @@ class Bike:
         draw_rectangle(self.RWx - self.Wsize , self.RWy - self.Wsize
                        ,self.RWx + self.Wsize , self.RWy + self.Wsize)
 
+        draw_rectangle(self.headx - self.headSize , self.heady - self.headSize
+                       ,self.headx + self.headSize , self.heady + self.headSize)
+
     def update(self,delta_time):
         global stacked_time
         stacked_time += delta_time
@@ -82,7 +90,6 @@ class Bike:
             if self.RightMove:
                 if vecx < 10:
                     self.vec.Plus(0.05,0)
-            else:
             if self.LeftMove:      
                 if vecx > -5:
                     self.vec.Minus(0.05,0)
@@ -98,11 +105,14 @@ class Bike:
             #collision box
             LWdegree = self.degree + 218
             RWdegree = self.degree + 328
+            headDegree = self.degree + 90
             
             self.LWx = self.drawx + self.toLW * math.cos(LWdegree*radi) 
             self.LWy = self.drawy + self.toLW * math.sin(LWdegree*radi)
             self.RWx = self.drawx + self.toRW * math.cos(RWdegree*radi)
             self.RWy = self.drawy + self.toRW * math.sin(RWdegree*radi)
+            self.headx = self.drawx + self.tohead * math.cos(headDegree*radi)
+            self.heady = self.drawy + self.tohead * math.sin(headDegree*radi)
 
             #collision
             global map_height
@@ -111,6 +121,11 @@ class Bike:
                                                 self.Wsize,map_height)
             Rcheck = collision.WheelWithGround(self.RWx + self.mapx - 100,self.RWy,
                                                 self.Wsize,map_height)
+            Hcheck = collision.WheelWithGround(self.headx + self.mapx - 100,self.heady,
+                                                self.headSize,map_height)
+
+            if(Hcheck):
+                game_framework.push_state(game_over)
 
             if(Lcheck and Rcheck):
                 self.y -= vecy
@@ -143,11 +158,14 @@ class Bike:
                 #collision box
                 LWdegree = self.degree + 218
                 RWdegree = self.degree + 328
+                headDegree = self.degree + 90
                 
                 self.LWx = self.drawx + self.toLW * math.cos(LWdegree*radi) 
                 self.LWy = self.drawy + self.toLW * math.sin(LWdegree*radi)
                 self.RWx = self.drawx + self.toRW * math.cos(RWdegree*radi)
                 self.RWy = self.drawy + self.toRW * math.sin(RWdegree*radi)
+                self.headx = self.drawx + self.tohead * math.cos(headDegree*radi)
+                self.heady = self.drawy + self.tohead * math.sin(headDegree*radi)
 
                 #collision
                 Lcheck , Rcheck = 0 , 0

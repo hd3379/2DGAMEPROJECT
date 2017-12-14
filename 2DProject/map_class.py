@@ -70,12 +70,12 @@ class Map:
             if self.mapx + 1 < pacoX:
                 self.mapx += 1 + vecx*(pacoX - self.mapx)/200
                 self.cloudx += vecx*(pacoX - self.mapx)/10000.0
-                self.apartx += vecx*(pacoX - self.mapx)/5000.0
+                self.apartx += vecx*(pacoX - self.mapx)/3000.0
                 self.Treex += vecx*(pacoX - self.mapx)/500.0
             elif self.mapx  > pacoX + 1:
                 self.mapx += -1 + vecx*(self.mapx - pacoX)/200
                 self.cloudx -= vecx*(pacoX - self.mapx)/10000.0
-                self.apartx -= vecx*(pacoX - self.mapx)/2000.0
+                self.apartx -= vecx*(pacoX - self.mapx)/2500.0
                 self.Treex -= vecx*(pacoX - self.mapx)/500.0             
 
             if self.mapy + 1 < pacoY:

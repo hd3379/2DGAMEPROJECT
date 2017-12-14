@@ -56,4 +56,9 @@ def handle_events():
                 game_framework.quit()
             paco.handle_events(event)
 
+def pause():
+    pass
+
+def resume():
+    pass
 
