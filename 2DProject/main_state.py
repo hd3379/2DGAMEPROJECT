@@ -40,8 +40,8 @@ def update():
 def draw():
     global paco, ground
     clear_canvas()
-    paco.draw()
     ground.draw()
+    paco.draw()
     update_canvas()
     
 

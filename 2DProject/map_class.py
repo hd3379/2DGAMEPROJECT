@@ -8,6 +8,12 @@ class Map:
         self.map_left = 0
         self.map_right = 8
         self.mapx , self.mapy = 200,300
+        self.cloudx = 0
+        self.apartx = 0
+        self.Treex = 0
+        self.cloud = load_image('resource\\cloud.png')
+        self.apart = load_image('resource\\apart.png')
+        self.Tree = load_image('resource\\Tree.png')
         global stacked_time
         stacked_time = 0
         
@@ -26,6 +32,15 @@ class Map:
     def draw(self):
         i = 0
         oldheight = 500
+        self.cloud.clip_draw_to_origin(int(self.cloudx),0,800,600,0,0)
+        self.apart.clip_draw_to_origin(int(self.apartx),0,800,600,0,0)
+        if self.Treex < 1600:
+            self.Tree.clip_draw_to_origin(int(self.Treex),0,800,600,0,0)
+        else:
+            self.Tree.clip_draw_to_origin(int(self.Treex),0,int(2400 - self.Treex),600,0,0)
+            self.Tree.clip_draw_to_origin(0,0,int(self.Treex - 1600),600,int(2400 - self.Treex),0)
+        if self.Treex >=2400:
+            self.Treex-=2400
         map_scrollx = self.mapx
         map_scrolly = self.mapy
         for height in self.map_height:
@@ -42,10 +57,17 @@ class Map:
         if(stacked_time > 0.01):
             stacked_time -= 0.01
 
+            
             if self.mapx + 1 < pacoX:
                 self.mapx += 1 + vecx*(pacoX - self.mapx)/200
+                self.cloudx += vecx*(pacoX - self.mapx)/10000.0
+                self.apartx += vecx*(pacoX - self.mapx)/5000.0
+                self.Treex += vecx*(pacoX - self.mapx)/500.0
             elif self.mapx  > pacoX + 1:
                 self.mapx += -1 + vecx*(self.mapx - pacoX)/200
+                self.cloudx -= vecx*(pacoX - self.mapx)/10000.0
+                self.apartx -= vecx*(pacoX - self.mapx)/2000.0
+                self.Treex -= vecx*(pacoX - self.mapx)/500.0
 
             if self.mapy + 1 < pacoY:
                 self.mapy += vecy*(pacoY - self.mapy)/100

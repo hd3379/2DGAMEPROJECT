@@ -36,7 +36,7 @@ class Vector:
                          (self.getSize() * math.sqrt(x*x + y*y))) * (180/PI))
 
     def gravity(self):
-        self.y -= 0.03
+        self.y -= 0.02
 
     def friction(self):
         if self.x >0:
