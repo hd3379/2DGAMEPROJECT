@@ -33,7 +33,7 @@ class Bike:
     def draw(self):
         radi = 3.14/180.0 * self.degree
         self.drawx = self.x - self.mapx + 200
-        self.drawy = self.y - self.mapy + 300
+        self.drawy = self.y
         if self.state == self.IDLE1:
             self.idle1.rotate_draw(radi,self.drawx, self.drawy)
         elif self.state == self.IDLE2:
@@ -80,16 +80,16 @@ class Bike:
                 if vecx < 10:
                     self.vec.Plus(0.05,0)
             if self.LeftMove:
-                if vecx > -10:
+                if vecx > -5:
                     self.vec.Minus(0.05,0)
     
 
             #manage speed
-            #self.vec.gravity()
             vecx , vecy = self.vec.getVector()
             self.x += vecx
             self.y += vecy
-
+            
+            
             #collision box
             radi = 3.14/180.0
             LWdegree = self.degree + 218
@@ -101,7 +101,22 @@ class Bike:
             self.RWy = self.drawy + self.toRW * math.sin(RWdegree*radi)
 
             #collision
-            #if collision.BoxWithGround():
+            global map_height
+            Lcheck = collision.WheelWithGround(self.LWx
+                                               ,self.LWy,
+                                               self.Wsize,map_height)
+            Rcheck = collision.WheelWithGround(self.RWx
+                                               ,self.RWy,
+                                               self.Wsize,map_height)
+            if(Lcheck):
+                self.y -= vecy
+                self.vec.setVector(vecx,0)
+
+
+            #
+            self.vec.gravity()
+            self.vec.friction()
+            
 
         
 
@@ -134,3 +149,7 @@ class Bike:
     def set_camara(self , x , y):
         self.mapx = x
         self.mapy = y
+
+    def set_map(self,Map_height):
+        global map_height
+        map_height = Map_height

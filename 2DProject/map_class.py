@@ -52,6 +52,8 @@ class Map:
             elif self.mapy > pacoY + 1:
                 self.mapy += vecy*(self.mapy - pacoY)/100
 
-
     def get_map(self):
+        return self.map_height
+
+    def get_maplocation(self):
         return self.mapx, self.mapy
