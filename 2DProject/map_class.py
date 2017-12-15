@@ -1,5 +1,7 @@
 from pico2d import *
 import json
+import game_framework
+import game_clear
 
 class Map:
 
@@ -57,6 +59,9 @@ class Map:
                       int((i+1)*100 - map_scrollx),height)
             i = i+1
             oldheight = height
+        if i*100 -700 < map_scrollx:
+            game_framework.push_state(game_clear)
+                
 
 
     def update(self,pacoX,pacoY, vecx,vecy, delta_time):

@@ -35,6 +35,8 @@ class Bike:
         self.Wsize = 23  # W = Wheel
         self.RWx , self.RWy = self.x + 72 , self.y + 12
         self.toRW = 86
+
+        self.BoxDraw= 0
         
     def draw(self):
         radi = 3.14/180.0 * self.degree
@@ -52,15 +54,17 @@ class Bike:
             self.down1.rotate_draw(radi,self.drawx, self.drawy)
         elif self.state == self.DOWN2:
             self.down2.rotate_draw(radi,self.drawx, self.drawy)
-            
-        draw_rectangle(self.LWx - self.Wsize , self.LWy - self.Wsize
-                       ,self.LWx + self.Wsize , self.LWy + self.Wsize)
-        
-        draw_rectangle(self.RWx - self.Wsize , self.RWy - self.Wsize
-                       ,self.RWx + self.Wsize , self.RWy + self.Wsize)
 
-        draw_rectangle(self.headx - self.headSize , self.heady - self.headSize
-                       ,self.headx + self.headSize , self.heady + self.headSize)
+        if(self.BoxDraw):
+            
+            draw_rectangle(self.LWx - self.Wsize , self.LWy - self.Wsize
+                           ,self.LWx + self.Wsize , self.LWy + self.Wsize)
+        
+            draw_rectangle(self.RWx - self.Wsize , self.RWy - self.Wsize
+                           ,self.RWx + self.Wsize , self.RWy + self.Wsize)
+
+            draw_rectangle(self.headx - self.headSize , self.heady - self.headSize
+                           ,self.headx + self.headSize , self.heady + self.headSize)
 
     def update(self,delta_time):
         global stacked_time
@@ -180,7 +184,9 @@ class Bike:
                     self.y += 0.2
                 elif(Rcheck):
                     self.degree +=1
+                    self.x -= 0.05
                     self.y +=0.2
+                    self.vec.setVector(vecx-0.03,vecy)
                 else:
                     break
             self.vec.friction()
@@ -207,6 +213,11 @@ class Bike:
             self.RightMove = False
         elif (event.type,event.key) == (SDL_KEYUP, SDLK_LEFT):
             self.LeftMove = False
+        elif (event.type,event.key) == (SDL_KEYDOWN , SDLK_z):
+            if self.BoxDraw :
+                self.BoxDraw = 0
+            else:
+                self.BoxDraw = 1
     def get_xy(self):
         return self.x , self.y
 
